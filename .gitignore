@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+backend/.env
+
+# Model and data artifacts
+*.safetensors
+*.pt
+*.pth
+*.pkl
+*.xlsx
+*.xls
+backend/models/
+datasets/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+

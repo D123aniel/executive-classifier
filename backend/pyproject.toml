@@ -1,0 +1,9 @@
+[project]
+name = "executive-classifier-api"
+version = "0.1.0"
+description = "FastAPI service for the executive evasiveness classifier"
+requires-python = ">=3.11,<3.14"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

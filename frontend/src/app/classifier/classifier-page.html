@@ -1,0 +1,159 @@
+<section class="hero">
+  <div class="eyebrow">Earnings-call analysis</div>
+  <h1>Does the response answer the question?</h1>
+  <p>
+    Compare an analyst's question with an executive's response. The fine-tuned
+    classifier scores the response as direct, partially evasive, or fully evasive.
+  </p>
+</section>
+
+<section class="workspace" aria-label="Evasiveness classifier">
+  <div class="input-panel">
+    <div class="panel-heading">
+      <div>
+        <span class="step">01</span>
+        <h2>Question and response</h2>
+      </div>
+      <button class="text-button" type="button" (click)="reset()">Clear</button>
+    </div>
+
+    <div class="examples" aria-label="Load an example">
+      <span>Try an example:</span>
+      <button type="button" (click)="loadExample('direct')">Direct</button>
+      <button type="button" (click)="loadExample('partial')">Partial</button>
+      <button type="button" (click)="loadExample('evasive')">Evasive</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="analyze()">
+      <label for="question">
+        <span>Analyst question</span>
+        <small>{{ form.controls.question.value.length | number }} / 12,000</small>
+      </label>
+      <textarea
+        id="question"
+        formControlName="question"
+        rows="6"
+        maxlength="12000"
+        placeholder="Paste the analyst's question..."
+      ></textarea>
+
+      <label for="response">
+        <span>Executive response</span>
+        <small>{{ form.controls.response.value.length | number }} / 12,000</small>
+      </label>
+      <textarea
+        id="response"
+        formControlName="response"
+        rows="9"
+        maxlength="12000"
+        placeholder="Paste the executive's response..."
+      ></textarea>
+
+      @if (errorMessage()) {
+        <p class="error" role="alert">{{ errorMessage() }}</p>
+      }
+
+      <button class="analyze-button" type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner" aria-hidden="true"></span>
+          Analyzing response
+        } @else {
+          Analyze response
+          <span aria-hidden="true">→</span>
+        }
+      </button>
+      <p class="privacy-note">Submitted text is processed for this prediction and is not stored.</p>
+    </form>
+  </div>
+
+  <div class="result-panel">
+    <div class="panel-heading">
+      <div>
+        <span class="step">02</span>
+        <h2>Model output</h2>
+      </div>
+      <span class="model-name">RoBERTa-large</span>
+    </div>
+
+    @if (prediction(); as result) {
+      <div class="result-content" aria-live="polite">
+        <p class="result-kicker">Classification</p>
+        <div class="classification" [class]="resultClass(result.label)">
+          <span class="status-dot" aria-hidden="true"></span>
+          {{ result.label }}
+        </div>
+
+        <div class="score-list">
+          @for (row of scoreRows(); track row.label) {
+            <div class="score-row">
+              <div class="score-label">
+                <span>{{ row.label }}</span>
+                <strong>{{ row.score * 100 | number: '1.1-1' }}%</strong>
+              </div>
+              <div
+                class="score-track"
+                role="progressbar"
+                [attr.aria-label]="row.label + ' model score'"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="row.score * 100"
+              >
+                <span
+                  class="score-fill"
+                  [class]="row.tone"
+                  [style.width.%]="row.score * 100"
+                ></span>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (result.reviewRecommended) {
+          <div class="notice warning">
+            <strong>Human review recommended</strong>
+            <span>The model found this example uncertain or close to another class.</span>
+          </div>
+        }
+
+        @if (result.truncated) {
+          <div class="notice">
+            <strong>Input shortened</strong>
+            <span>
+              This pair contained {{ result.tokenCount | number }} tokens and was limited
+              to the model's first 512 tokens.
+            </span>
+          </div>
+        }
+
+        <p class="score-note">
+          These are model scores, not calibrated probabilities. The top-two margin is
+          {{ result.margin * 100 | number: '1.1-1' }} points.
+        </p>
+      </div>
+    } @else if (loading()) {
+      <div class="empty-state loading-state" aria-live="polite">
+        <span class="large-spinner" aria-hidden="true"></span>
+        <h3>The model is analyzing the pair</h3>
+        <p>The first request may take longer while the hosted model wakes up.</p>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <div class="empty-visual" aria-hidden="true">
+          <span>Q</span>
+          <div></div>
+          <span>A</span>
+        </div>
+        <h3>Your result will appear here</h3>
+        <p>Enter both texts or select an example, then analyze the response.</p>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="method-note">
+  <span>How to read the output</span>
+  <p>
+    The model evaluates the relationship between the question and response—not tone,
+    confidence, or response length alone.
+  </p>
+</section>
