@@ -38,23 +38,32 @@ The Angular frontend will run on Vercel. FastAPI and model inference will run on
 - [x] Verify the permanent health and prediction endpoints
 - [x] Configure Vercel to proxy Angular `/api` requests to Modal
 - [x] Verify the Angular production build
+- [x] Connect the GitHub repository to Vercel
+- [x] Deploy Angular to Vercel
+- [x] Verify the production frontend and proxied API endpoints
+- [x] Limit Modal to one GPU container and one concurrent request
+- [x] Enforce request-size and execution-time limits
+- [x] Reduce Modal's idle scale-down window to one minute
+- [x] Restrict production CORS to the Vercel application
+- [x] Set a $5 monthly Modal workspace spend budget
+- [x] Review the final research submission and supporting artifacts
+- [x] Populate the About page with research and methodology
+- [x] Add evaluation results, error analysis, and limitations
+- [x] Add accessible About page navigation and source links
+- [x] Add About page unit tests
+- [x] Verify the updated Angular production build
 
 ### In Progress
 
-- [ ] Connect the GitHub repository to Vercel
+- [ ] Add deployment and contributor documentation
 
 ### Next
 
-- [ ] Restrict production CORS origins
-- [ ] Deploy Angular to Vercel
-- [ ] Add production budget and abuse safeguards
-- [ ] Populate the About page with research materials
-- [ ] Add model methodology, metrics, and limitations
-- [ ] Add deployment and contributor documentation
+- [ ] Review and confirm public contributor attribution
 
-## Active Milestone: Deployment
+## Active Milestone: Project Documentation
 
-The Modal image, persistent model volume, and permanent scale-to-zero endpoint are working. Both `GET /health` and `POST /predict` were verified against the permanent endpoint on July 26, 2026. The permanent API is available at `https://d123aniel--executive-classifier-api-fastapi-app.modal.run`. The next step is to route Angular's `/api` requests to this endpoint through Vercel, then deploy and verify the frontend.
+The production application is live at `https://executive-classifier.vercel.app`. Vercel serves the Angular application and proxies `/api` requests to the permanent Modal endpoint at `https://d123aniel--executive-classifier-api-fastapi-app.modal.run`. The frontend, `GET /api/health`, and `POST /api/predict` were all verified in production on July 26, 2026. Cost exposure is constrained by scale-to-zero operation with a one-minute idle window, one GPU container, one concurrent request, request-size validation, execution timeouts, and a $5 monthly workspace budget. Production CORS allows the Vercel application and rejects unapproved origins. The About page now documents the research question, labeling framework, methodology, holdout results, error patterns, limitations, and deployment architecture using the final COMP 488 submission as its evidence base.
 
 ## Deployment Responsibilities
 
@@ -71,7 +80,7 @@ The Modal image, persistent model volume, and permanent scale-to-zero endpoint a
 
 - Authenticate the Modal CLI
 - Create or approve the Modal Volume
-- Set Modal spending limits and alerts
+- Set the Modal workspace spend budget
 - Connect the GitHub repository to Vercel
 - Approve production deployments
 - Provide research and report material for the About page

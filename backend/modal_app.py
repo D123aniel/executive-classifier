@@ -8,6 +8,11 @@ MODEL_MOUNT_PATH = "/models"
 image = (
     modal.Image.debian_slim(python_version="3.12")
     .pip_install_from_requirements("backend/requirements-modal.txt")
+    .env(
+        {
+            "ALLOWED_ORIGINS": "https://executive-classifier.vercel.app",
+        }
+    )
     .add_local_python_source("app")
 )
 model_volume = modal.Volume.from_name(
@@ -23,7 +28,7 @@ app = modal.App(APP_NAME)
     volumes={MODEL_MOUNT_PATH: model_volume},
     min_containers=0,
     max_containers=1,
-    scaledown_window=5 * 60,
+    scaledown_window=60,
     timeout=2 * 60,
     startup_timeout=5 * 60,
 )
