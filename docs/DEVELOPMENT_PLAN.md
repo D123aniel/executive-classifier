@@ -49,6 +49,7 @@ The Angular frontend will run on Vercel. FastAPI and model inference will run on
 - [x] Review the final research submission and supporting artifacts
 - [x] Populate the About page with research and methodology
 - [x] Add evaluation results, error analysis, and limitations
+- [x] Add source-backed commercial-model cost and throughput comparisons
 - [x] Add accessible About page navigation and source links
 - [x] Add About page unit tests
 - [x] Verify the updated Angular production build

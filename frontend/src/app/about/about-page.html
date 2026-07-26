@@ -243,6 +243,50 @@
       </table>
     </div>
 
+    <div class="cost-speed" aria-labelledby="cost-speed-title">
+      <div class="cost-speed-heading">
+        <span>Cost and throughput</span>
+        <h3 id="cost-speed-title">Lower recurring API cost and faster batch inference</h3>
+        <p>
+          The saved comparison measured RoBERTa against Gemini 3 Flash, the strongest
+          commercial model in the accuracy benchmark.
+        </p>
+      </div>
+
+      <div class="cost-speed-grid">
+        <div>
+          <strong>~1,247×</strong>
+          <span>Reported batch speedup over Gemini 3 Flash</span>
+        </div>
+        <div>
+          <strong>~3 sec vs. ~3,741 sec</strong>
+          <span>Reported runtime for 1,000 texts</span>
+        </div>
+        <div>
+          <strong>$0 vs. ~$0.31</strong>
+          <span>Reported API labeling cost for 1,000 texts after training</span>
+        </div>
+        <div>
+          <strong>~$3.07</strong>
+          <span>Reported API labeling savings for 10,000 texts</span>
+        </div>
+      </div>
+
+      <div class="benchmark-context">
+        <p>
+          Across all 6 archived commercial-model benchmarks, total API cost for 1,000
+          texts ranged from about $0.06 for Gemini 3.1 Flash-Lite to $2.06 for Claude
+          Sonnet 4.6.
+        </p>
+        <p>
+          The $0 RoBERTa figure means no third-party labeling API charge after
+          training. It does not include model training or deployment infrastructure.
+          Runtime figures are from the batch experiment and do not include hosted
+          service cold starts.
+        </p>
+      </div>
+    </div>
+
     <div class="finding-grid">
       <div>
         <strong>493 / 563</strong>
@@ -368,8 +412,36 @@
       <h2 id="sources-title">Project materials</h2>
     </div>
     <ul>
-      <li>COMP 488 Executive Memo and Technical Appendix</li>
-      <li>Project Labeling Codebook and 6-stage analysis pipeline</li>
+      <li>
+        <a
+          href="https://drive.google.com/file/d/1kWJFoF2yxj8pEr28OQE2Mi7Auh6O1DhU/view?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          COMP 488 Executive Memo
+          <span aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://drive.google.com/file/d/18F8vaO3PIWVmOn7K_N7FhWZpwTRkfRgs/view?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Project Labeling Codebook
+          <span aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://drive.google.com/file/d/1ugX_W_eHtMVTeXi1GXw-YqxbUuuris3s/view?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Technical Appendix
+          <span aria-hidden="true">↗</span>
+        </a>
+      </li>
       <li>
         <a
           href="https://arxiv.org/abs/2601.09142"

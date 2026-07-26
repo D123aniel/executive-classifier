@@ -444,6 +444,84 @@ table {
   }
 }
 
+.cost-speed {
+  margin: 20px 0 0 70px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  background: var(--ink);
+}
+
+.cost-speed-heading {
+  max-width: 720px;
+
+  > span {
+    color: #9fb1a7;
+    font-size: 0.67rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 8px 0;
+    color: var(--surface);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3vw, 2rem);
+  }
+
+  p {
+    margin: 0;
+    color: #b9c3bd;
+    font-size: 0.76rem;
+  }
+}
+
+.cost-speed-grid {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid #435048;
+  border-left: 1px solid #435048;
+
+  div {
+    min-height: 114px;
+    padding: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #435048;
+    border-bottom: 1px solid #435048;
+  }
+
+  strong {
+    color: var(--surface);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  span {
+    max-width: 240px;
+    color: #9fb1a7;
+    font-size: 0.66rem;
+    line-height: 1.45;
+  }
+}
+
+.benchmark-context {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+
+  p {
+    margin: 0;
+    color: #b9c3bd;
+    font-size: 0.7rem;
+    line-height: 1.6;
+  }
+}
+
 .finding-grid {
   margin: 20px 0 0 70px;
   display: grid;
@@ -754,6 +832,7 @@ table {
   .training-details,
   .results-summary,
   .table-wrap,
+  .cost-speed,
   .finding-grid,
   .result-note,
   .limitation-grid,
@@ -777,6 +856,11 @@ table {
   .training-details,
   .finding-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .benchmark-context {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .limitation-grid,

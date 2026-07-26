@@ -22,6 +22,8 @@ describe('AboutPage', () => {
     expect(compiled.querySelector('#methodology')).toBeTruthy();
     expect(compiled.querySelector('#results')).toBeTruthy();
     expect(compiled.querySelector('#limitations')).toBeTruthy();
+    expect(compiled.querySelector('.cost-speed')?.textContent).toContain('~1,247×');
+    expect(compiled.querySelector('.cost-speed')?.textContent).toContain('~$3.07');
     expect(compiled.textContent).not.toContain('Documentation in progress');
   });
 
@@ -55,5 +57,14 @@ describe('AboutPage', () => {
     expect(
       externalLinks.every((link) => link.rel === 'noopener noreferrer')
     ).toBe(true);
+    expect(compiled.querySelector('.sources')?.textContent).toContain(
+      'COMP 488 Executive Memo'
+    );
+    expect(compiled.querySelector('.sources')?.textContent).toContain(
+      'Project Labeling Codebook'
+    );
+    expect(compiled.querySelector('.sources')?.textContent).toContain(
+      'Technical Appendix'
+    );
   });
 });
