@@ -46,20 +46,24 @@ The Angular frontend will run on Vercel. FastAPI and model inference will run on
 - [x] Reduce Modal's idle scale-down window to one minute
 - [x] Restrict production CORS to the Vercel application
 - [x] Set a $5 monthly Modal workspace spend budget
+- [x] Review the final research submission and supporting artifacts
+- [x] Populate the About page with research and methodology
+- [x] Add evaluation results, error analysis, and limitations
+- [x] Add accessible About page navigation and source links
+- [x] Add About page unit tests
+- [x] Verify the updated Angular production build
 
 ### In Progress
 
-- [ ] Gather research and report material for the About page
+- [ ] Add deployment and contributor documentation
 
 ### Next
 
-- [ ] Populate the About page with research materials
-- [ ] Add model methodology, metrics, and limitations
-- [ ] Add deployment and contributor documentation
+- [ ] Review and confirm public contributor attribution
 
 ## Active Milestone: Project Documentation
 
-The production application is live at `https://executive-classifier.vercel.app`. Vercel serves the Angular application and proxies `/api` requests to the permanent Modal endpoint at `https://d123aniel--executive-classifier-api-fastapi-app.modal.run`. The frontend, `GET /api/health`, and `POST /api/predict` were all verified in production on July 26, 2026. Cost exposure is constrained by scale-to-zero operation with a one-minute idle window, one GPU container, one concurrent request, request-size validation, execution timeouts, and a $5 monthly workspace budget. Production CORS allows the Vercel application and rejects unapproved origins. Deployment is complete; the active milestone is documenting the research, methodology, evaluation results, limitations, and contributor workflow.
+The production application is live at `https://executive-classifier.vercel.app`. Vercel serves the Angular application and proxies `/api` requests to the permanent Modal endpoint at `https://d123aniel--executive-classifier-api-fastapi-app.modal.run`. The frontend, `GET /api/health`, and `POST /api/predict` were all verified in production on July 26, 2026. Cost exposure is constrained by scale-to-zero operation with a one-minute idle window, one GPU container, one concurrent request, request-size validation, execution timeouts, and a $5 monthly workspace budget. Production CORS allows the Vercel application and rejects unapproved origins. The About page now documents the research question, labeling framework, methodology, holdout results, error patterns, limitations, and deployment architecture using the final COMP 488 submission as its evidence base.
 
 ## Deployment Responsibilities
 

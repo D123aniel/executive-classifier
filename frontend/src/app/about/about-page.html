@@ -1,26 +1,407 @@
-<section class="about-hero">
-  <div class="eyebrow">About the project</div>
-  <h1>Research, process, and methodology</h1>
+<section class="about-hero" aria-labelledby="about-title">
+  <div class="eyebrow">Research and methodology</div>
+  <h1 id="about-title">Signal through the noise</h1>
   <p>
-    This page will document how the dataset was prepared, how responses were labeled,
-    how the model was trained, and what we learned from the evaluation.
-  </p>
-</section>
-
-<section class="placeholder" aria-label="Planned project documentation">
-  <span>Documentation in progress</span>
-  <h2>Project materials will be added here.</h2>
-  <p>
-    Research reports, methodology, team contributions, evaluation results, and model
-    limitations will be incorporated in a future update.
+    This COMP 488 research project asks whether a specialist text classifier can
+    reliably detect when executives avoid analyst questions in earnings-call Q&amp;A,
+    and whether it can outperform general-purpose language models.
   </p>
 
-  <div class="planned-sections">
-    <div>Research question</div>
-    <div>Data and labeling</div>
-    <div>Model training</div>
-    <div>Evaluation</div>
-    <div>Limitations</div>
-    <div>Team contributions</div>
+  <div class="headline-results" aria-label="Headline holdout results">
+    <div>
+      <strong>88.9%</strong>
+      <span>Accuracy</span>
+    </div>
+    <div>
+      <strong>0.835</strong>
+      <span>Macro F1</span>
+    </div>
+    <div>
+      <strong>0.790</strong>
+      <span>MCC</span>
+    </div>
+    <div>
+      <strong>1,000</strong>
+      <span>Human-labeled holdout pairs</span>
+    </div>
   </div>
 </section>
+
+<nav class="page-nav" aria-label="On this page">
+  <span>On this page</span>
+  <div>
+    <a href="#research">Research question</a>
+    <a href="#framework">Labeling framework</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#results">Results</a>
+    <a href="#limitations">Limitations</a>
+    <a href="#deployment">Deployment</a>
+  </div>
+</nav>
+
+<article class="research-content">
+  <section id="research" class="content-section" aria-labelledby="research-title">
+    <div class="section-heading">
+      <span>01</span>
+      <div>
+        <p>Research question</p>
+        <h2 id="research-title">Can a specialist model detect executive evasiveness?</h2>
+      </div>
+    </div>
+
+    <div class="prose-grid">
+      <div>
+        <p class="lead">
+          Earnings calls are a critical communication channel between public companies
+          and investors. When an executive avoids part of an analyst's question, the
+          response can increase information asymmetry and obscure decision-relevant
+          signals.
+        </p>
+        <p>
+          The project compares 2 approaches on the same locked evaluation set:
+          zero-shot classification with 6 general-purpose language models and a
+          fine-tuned RoBERTa-large classifier trained for this specific task.
+        </p>
+      </div>
+      <aside class="research-question">
+        <span>Core question</span>
+        <p>
+          Can a scalable classifier identify whether a response is direct, partially
+          evasive, or fully evasive while improving accuracy, speed, cost, and
+          reproducibility?
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="framework" class="content-section" aria-labelledby="framework-title">
+    <div class="section-heading">
+      <span>02</span>
+      <div>
+        <p>Labeling framework</p>
+        <h2 id="framework-title">Directness is measured against the question</h2>
+      </div>
+    </div>
+
+    <p class="section-intro">
+      Each example contains an analyst question and an executive response. The label
+      describes how completely the response addresses the question, not whether the
+      language sounds confident, polite, or detailed.
+    </p>
+
+    <div class="label-grid">
+      <article class="label-card direct">
+        <div><span aria-hidden="true"></span>Direct</div>
+        <p>
+          Clearly answers all key parts of the question with relevant and specific
+          information.
+        </p>
+      </article>
+      <article class="label-card partial">
+        <div><span aria-hidden="true"></span>Partially evasive</div>
+        <p>
+          Addresses the topic but leaves a key component unanswered, vague, or deferred.
+        </p>
+      </article>
+      <article class="label-card evasive">
+        <div><span aria-hidden="true"></span>Fully evasive</div>
+        <p>
+          Does not answer the question and instead shifts to unrelated content or a
+          non-answer.
+        </p>
+      </article>
+    </div>
+
+    <div class="rule-note">
+      <strong>Codebook rule</strong>
+      <p>
+        If all components are answered, label the response Direct. If only some are
+        answered, label it Partially Evasive. If the response does not address the
+        question, label it Fully Evasive.
+      </p>
+    </div>
+  </section>
+
+  <section id="methodology" class="content-section" aria-labelledby="methodology-title">
+    <div class="section-heading">
+      <span>03</span>
+      <div>
+        <p>Methodology</p>
+        <h2 id="methodology-title">From public transcripts to a locked benchmark</h2>
+      </div>
+    </div>
+
+    <ol class="method-steps">
+      <li>
+        <span>1</span>
+        <div>
+          <h3>Prepare the data</h3>
+          <p>
+            The source dataset was EvasionBench, a public benchmark of 16,726
+            earnings-call question and response pairs. Duplicate questions were
+            consolidated by retaining the longest response.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span>2</span>
+        <div>
+          <h3>Create an independent holdout</h3>
+          <p>
+            A stratified set of 1,000 pairs was locked before training. At least 3
+            annotators reviewed each pair using the project codebook, and the final
+            adjudicated labels became the evaluation reference.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span>3</span>
+        <div>
+          <h3>Benchmark general-purpose models</h3>
+          <p>
+            6 language models from Google, OpenAI, and Anthropic classified the same
+            holdout using a fixed codebook-based prompt. Gemini 3 Flash produced the
+            strongest general-purpose baseline.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span>4</span>
+        <div>
+          <h3>Fine-tune the specialist model</h3>
+          <p>
+            RoBERTa-large was trained as a 3-class sequence classifier on 12,505
+            training pairs and selected using macro F1 on a 3,127-pair validation set.
+            The question and response are encoded together with a 512-token limit.
+          </p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="training-details" aria-label="Selected training configuration">
+      <div><span>Base model</span><strong>RoBERTa-large</strong></div>
+      <div><span>Epochs</span><strong>8</strong></div>
+      <div><span>Learning rate</span><strong>1e-5</strong></div>
+      <div><span>Effective batch</span><strong>256</strong></div>
+      <div><span>Maximum length</span><strong>512 tokens</strong></div>
+      <div><span>Selection metric</span><strong>Macro F1</strong></div>
+    </div>
+  </section>
+
+  <section id="results" class="content-section" aria-labelledby="results-title">
+    <div class="section-heading">
+      <span>04</span>
+      <div>
+        <p>Evaluation</p>
+        <h2 id="results-title">The specialist model led on every primary metric</h2>
+      </div>
+    </div>
+
+    <div class="results-summary">
+      <p class="lead">
+        On the 1,000-pair human-labeled holdout, the fine-tuned model reached 88.9%
+        accuracy and a 0.835 macro F1. It outperformed Gemini 3 Flash, the strongest of
+        the 6 general-purpose models tested.
+      </p>
+      <div class="improvement">
+        <span>Macro F1 improvement</span>
+        <strong>+0.185</strong>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Performance on the human-labeled holdout</caption>
+        <thead>
+          <tr>
+            <th scope="col">Model</th>
+            <th scope="col">Accuracy</th>
+            <th scope="col">Macro F1</th>
+            <th scope="col">MCC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="winner">
+            <th scope="row">
+              Fine-tuned RoBERTa
+              <span>Specialist model</span>
+            </th>
+            <td>0.889</td>
+            <td>0.835</td>
+            <td>0.790</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              Gemini 3 Flash
+              <span>Best zero-shot baseline</span>
+            </th>
+            <td>0.777</td>
+            <td>0.650</td>
+            <td>0.555</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="finding-grid">
+      <div>
+        <strong>493 / 563</strong>
+        <span>Direct responses identified</span>
+      </div>
+      <div>
+        <strong>374 / 410</strong>
+        <span>Partially evasive responses identified</span>
+      </div>
+      <div>
+        <strong>22 / 27</strong>
+        <span>Fully evasive responses identified</span>
+      </div>
+    </div>
+
+    <div class="result-note">
+      <strong>What the errors showed</strong>
+      <p>
+        94 of the model's 111 errors occurred between Direct and Partially Evasive.
+        This reflects the most subjective boundary in the codebook. Fully Evasive was
+        also rare, with only 27 examples in the final holdout.
+      </p>
+    </div>
+  </section>
+
+  <section id="limitations" class="content-section" aria-labelledby="limitations-title">
+    <div class="section-heading">
+      <span>05</span>
+      <div>
+        <p>Responsible use</p>
+        <h2 id="limitations-title">A decision-support signal, not a final judgment</h2>
+      </div>
+    </div>
+
+    <div class="limitation-grid">
+      <article>
+        <h3>Labels require judgment</h3>
+        <p>
+          Borderline responses can reasonably be interpreted differently, especially
+          between Direct and Partially Evasive.
+        </p>
+      </article>
+      <article>
+        <h3>The rare class is small</h3>
+        <p>
+          Fully Evasive represents 27 holdout examples, limiting how precisely its
+          performance can be estimated.
+        </p>
+      </article>
+      <article>
+        <h3>Context is limited</h3>
+        <p>
+          The model evaluates one question and response pair. It does not use the full
+          call, prior exchanges, company history, or market context.
+        </p>
+      </article>
+      <article>
+        <h3>Scores need interpretation</h3>
+        <p>
+          Output scores are relative model scores, not calibrated probabilities.
+          Low-score or low-margin predictions should receive human review.
+        </p>
+      </article>
+    </div>
+
+    <div class="warning-note">
+      <strong>Appropriate use</strong>
+      <p>
+        This academic tool supports research and exploration. It should not be used as
+        a standalone basis for investment, legal, compliance, or personnel decisions.
+      </p>
+    </div>
+  </section>
+
+  <section id="deployment" class="content-section" aria-labelledby="deployment-title">
+    <div class="section-heading">
+      <span>06</span>
+      <div>
+        <p>From research to application</p>
+        <h2 id="deployment-title">A reproducible model behind a small web service</h2>
+      </div>
+    </div>
+
+    <div class="deployment-grid">
+      <div class="architecture">
+        <div>
+          <span>Interface</span>
+          <strong>Angular</strong>
+          <small>Hosted on Vercel</small>
+        </div>
+        <span aria-hidden="true">→</span>
+        <div>
+          <span>API</span>
+          <strong>FastAPI</strong>
+          <small>Hosted on Modal</small>
+        </div>
+        <span aria-hidden="true">→</span>
+        <div>
+          <span>Classifier</span>
+          <strong>RoBERTa-large</strong>
+          <small>GPU inference</small>
+        </div>
+      </div>
+
+      <div class="deployment-copy">
+        <p>
+          The application code does not persist submitted questions or responses. The
+          model scales to zero between periods of use, so the first request after an
+          idle period can take longer while the service starts.
+        </p>
+        <p>
+          Requests longer than 512 model tokens are truncated and marked in the
+          response. Predictions with a top score below 0.60 or a top-2 margin below
+          0.15 are flagged for review.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" aria-labelledby="sources-title">
+    <div>
+      <p>Research basis</p>
+      <h2 id="sources-title">Project materials</h2>
+    </div>
+    <ul>
+      <li>COMP 488 Executive Memo and Technical Appendix</li>
+      <li>Project Labeling Codebook and 6-stage analysis pipeline</li>
+      <li>
+        <a
+          href="https://arxiv.org/abs/2601.09142"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EvasionBench: A Large-Scale Benchmark for Detecting Managerial Evasion
+          <span aria-hidden="true">↗</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://github.com/D123aniel/executive-classifier"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Application source code
+          <span aria-hidden="true">↗</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="about-cta" aria-labelledby="cta-title">
+    <div>
+      <span>Explore the model</span>
+      <h2 id="cta-title">Test a question and response</h2>
+      <p>
+        Compare the 3 labels and inspect the model's score distribution on your own
+        example.
+      </p>
+    </div>
+    <a routerLink="/">Open the classifier</a>
+  </section>
+</article>
