@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://d123aniel--executive-classifier-api-fastapi-app.modal.run/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
