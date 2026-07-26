@@ -38,23 +38,28 @@ The Angular frontend will run on Vercel. FastAPI and model inference will run on
 - [x] Verify the permanent health and prediction endpoints
 - [x] Configure Vercel to proxy Angular `/api` requests to Modal
 - [x] Verify the Angular production build
+- [x] Connect the GitHub repository to Vercel
+- [x] Deploy Angular to Vercel
+- [x] Verify the production frontend and proxied API endpoints
+- [x] Limit Modal to one GPU container and one concurrent request
+- [x] Enforce request-size and execution-time limits
+- [x] Reduce Modal's idle scale-down window to one minute
+- [x] Restrict production CORS to the Vercel application
+- [x] Set a $5 monthly Modal workspace spend budget
 
 ### In Progress
 
-- [ ] Connect the GitHub repository to Vercel
+- [ ] Gather research and report material for the About page
 
 ### Next
 
-- [ ] Restrict production CORS origins
-- [ ] Deploy Angular to Vercel
-- [ ] Add production budget and abuse safeguards
 - [ ] Populate the About page with research materials
 - [ ] Add model methodology, metrics, and limitations
 - [ ] Add deployment and contributor documentation
 
-## Active Milestone: Deployment
+## Active Milestone: Project Documentation
 
-The Modal image, persistent model volume, and permanent scale-to-zero endpoint are working. Both `GET /health` and `POST /predict` were verified against the permanent endpoint on July 26, 2026. The permanent API is available at `https://d123aniel--executive-classifier-api-fastapi-app.modal.run`. The next step is to route Angular's `/api` requests to this endpoint through Vercel, then deploy and verify the frontend.
+The production application is live at `https://executive-classifier.vercel.app`. Vercel serves the Angular application and proxies `/api` requests to the permanent Modal endpoint at `https://d123aniel--executive-classifier-api-fastapi-app.modal.run`. The frontend, `GET /api/health`, and `POST /api/predict` were all verified in production on July 26, 2026. Cost exposure is constrained by scale-to-zero operation with a one-minute idle window, one GPU container, one concurrent request, request-size validation, execution timeouts, and a $5 monthly workspace budget. Production CORS allows the Vercel application and rejects unapproved origins. Deployment is complete; the active milestone is documenting the research, methodology, evaluation results, limitations, and contributor workflow.
 
 ## Deployment Responsibilities
 
@@ -71,7 +76,7 @@ The Modal image, persistent model volume, and permanent scale-to-zero endpoint a
 
 - Authenticate the Modal CLI
 - Create or approve the Modal Volume
-- Set Modal spending limits and alerts
+- Set the Modal workspace spend budget
 - Connect the GitHub repository to Vercel
 - Approve production deployments
 - Provide research and report material for the About page
